@@ -1,0 +1,37 @@
+\newgeometry{left=3cm,right=4cm, top=3cm, bottom=3.5cm}
+\begin{titlepage}
+    %Logo
+    \includegraphics[height=1cm]{figures/logo_luh}
+    
+    \vspace{-3mm}
+    \rule{\textwidth}{1pt}
+    \vspace{5mm}
+
+    %University and Department
+    \large
+    Gottfried Wilhelm Leibniz Universität Hannover \\
+    Faculty of Electrical Engineering and Computer Science
+    \vspace{4.0cm}
+
+    %Degree and course of study
+    \degree\\
+    \courseofstudy %studiengang
+
+    \vspace{1.0cm}
+
+    %Thesis Title
+    \LARGE{\thetitle}
+
+    \vfill
+
+    %Author and Supervisors
+    \large
+    \begin{tabular}{ll}
+        Student:    & \theauthor\\
+        First Supervisor: & \firstprof\\
+        Second Supervisor:  & \secondprof\\
+        Date:        & \theday
+    \end{tabular}
+\end{titlepage}
+
+\restoregeometry
