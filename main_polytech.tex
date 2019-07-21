@@ -1,0 +1,385 @@
+\documentclass[oneside,14pt]{extarticle}
+\usepackage[T2A,T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian,english]{babel}
+
+%%%%%%% Name and Title %%%%%%%%%%%%%%%%%%%
+	\title{Knowledge Extraction and Control of an Uncertain model}
+	\author{Christopher W. Blake}
+	\newcommand{\firstprof}{Prof. Dr. Eirini Ntoutsi}
+	\newcommand{\secondprof}{Prof. Dr. Viacheslav P. Shkodyrev}
+	\date{\today}
+	\newcommand{\art}{Master Thesis}
+	\newcommand{\studiengang}{International Mechatronics (M.Sc.)}
+	\newcommand{\keywordsRU}{чёрный ящик, извлечение знаний, Система управления, машинное обучение, дерево решений}
+	\newcommand{\keywordsEN}{black box, knowledge extraction, control system, machine learning, decision tree}
+
+
+%%%%%%% Formatting Rules for Polytech %%%%
+	%Support for Russian sans-serif font
+	\renewcommand{\familydefault}{\sfdefault}
+	\renewcommand{\sfdefault}{PTSans-TLF}\normalfont
+
+	%Margins
+	\usepackage{geometry}
+	\geometry{a4paper,
+	left=25mm,
+	right=15mm,
+	top=20mm,
+	bottom=20mm,
+	headheight=3ex,
+	headsep=2ex,
+	}
+
+	%Line spacing
+	\usepackage[onehalfspacing]{setspace}
+
+	%Paragraph indent
+	\setlength{\parindent}{1.25cm}
+	\usepackage{indentfirst}
+
+	%List indention. Slightly more than 1.25 to offset the bullet/number.
+	\usepackage{enumitem}
+	\setlist[enumerate,1]{leftmargin=2.0cm}
+	\setlist[itemize,1]{leftmargin=1.75cm}
+
+	%No page breaks mid paragraph
+	\widowpenalties 1 10000
+	\raggedbottom
+
+	%Page Numbers in top right
+		\usepackage{fancyhdr}
+		\fancypagestyle{polytech}
+		{
+			\fancyhf{}
+			\renewcommand{\headrulewidth}{0.0pt}
+			\fancyhead[R]{\thepage}
+		}
+
+	%Section Titles - General
+		\usepackage{titlesec}
+		\titleformat{\section}[block]{\bfseries}{\thesection}{0em}{ }
+		\titleformat{\subsection}[block]{\bfseries}{\thesubsection}{0em}{ }		
+		\titleformat{\subsubsection}[block]{\bfseries}{\thesubsubsection}{0em}{ }		
+		\titlespacing\section{1.25cm}{0.8cm}{0.8cm}
+		\titlespacing\subsection{1.25cm}{0.4cm}{0.2cm}
+		\titlespacing\subsubsection{1.25cm}{0.2cm}{0.1cm}
+
+	%Section Titles - Intro and Conclusion 
+		\newcommand\unnumberedsection[1]{
+			\begingroup
+				\titleformat{\section}[block]{\bfseries\filcenter}{}{0em}{ }
+				\titlespacing\section{0cm}{0.8cm}{0.8cm}
+				\section*{\hfil \MakeUppercase{#1} \hfil}
+				\addcontentsline{toc}{section}{#1}
+				\renewcommand{\leftmark}{#1}
+			\endgroup
+		}
+
+	%Table of Contents
+		\addto\captionsenglish{
+			\renewcommand{\contentsname}
+			{
+				\hspace*{\fill}\bfseries\normalsize CONTENT \hspace*{\fill}
+			}
+		}
+	
+	%Bibliography
+		\addto\captionsenglish{
+			\renewcommand\refname
+			{
+				\hspace*{\fill}\bfseries\normalsize REVIEWERS \hspace*{\fill}
+			}
+		}
+		\makeatletter 
+		\renewcommand\@biblabel[1]{#1 \hspace{1cm}} 
+		\makeatother
+	
+	%Abstract
+		\newcommand\abstracts{
+			\abstractRU
+			\abstractEN
+			\clearpage
+		}
+		\newcommand\abstractRU{
+			\begingroup
+				\renewcommand{\sfdefault}{fos}\normalfont %enables sans font for Russian
+				\begin{otherlanguage}{russian}
+					\hyphenation{ма-те-ма-ти-ка вос-ста-нав-ли-вать}
+				
+					\begin{center}
+						\textbf{РЕФЕРАТ}
+
+						На \pageref{LastPage} с.,
+						\total{figures} рисунков,
+						\total{tables} таблицы,
+						\total{algorithms} приложениий
+					\end{center}
+					\small
+				
+					\noindent\MakeUppercase{\keywordsRU}
+					\newline
+
+					\input{content/0_abstract_RU}
+				\end{otherlanguage}
+			\endgroup
+		}
+		\newcommand\abstractEN{
+			\begingroup
+				\begin{samepage}
+					\begin{center}
+						\textbf{ABSTRACT}
+					
+						\pageref{LastPage} pages,
+						\total{figures} figures,
+						\total{tables} tables,
+						\total{algorithms} algorithms
+					\end{center}
+		
+					\noindent \MakeUppercase{\keywordsEN}
+					\newline
+
+					\input{content/0_abstract_EN}
+				\end{samepage}
+			\endgroup
+		}
+
+	%Display algorithms as figures
+		\newcommand\Alg{Fig}
+		% \usepackage{totcount}
+		% \usepackage{algorithm}
+		% \newtotcounter{algorithms}
+		% \makeatletter
+		% 	\renewenvironment{algorithm}[1][hbt]
+		% 	{
+		% 		\addtocounter{algorithms}{1}
+		% 		\figure
+		% 	}
+		% 	{
+		% 		\endfigure
+		% 	}
+		% \makeatother
+
+
+	%Figure numbering, and italic font
+		\let\counterwithout\relax
+		\let\counterwithin\relax
+		\usepackage{chngcntr}
+		\counterwithin{figure}{section}
+		\usepackage[labelsep=endash,labelfont=it,textfont=it]{caption}
+	
+	%Table numbering and title
+		\usepackage{threeparttable}
+		\counterwithin{table}{section}
+		\captionsetup[table]{
+			%labelsep = newline,
+			%textfont = sc, 
+			%name = TABLE, 
+			%justification=raggedright,
+			justification=justified,
+			singlelinecheck=false,
+			%labelsep=colon,%%%%%%
+			%skip = \medskipamount
+		}
+	%Equation numbering
+		\counterwithin{equation}{section}
+		\renewcommand{\theequation}{\arabic{section}-\arabic{equation}}
+
+%%%%%%% Generic Setup %%%%%%%%%%%%%%%%%%%%
+	%Make default page style blank
+	\pagestyle{empty}
+
+	%Set font to Helvetica
+	\usepackage{helvet}
+	\renewcommand*{\familydefault}{\sfdefault}
+	\fontfamily{phv}\selectfont
+
+	%Allow urls to wrap
+	\usepackage[hyphens]{url}
+
+	%Set hyphenation
+	\usepackage{hyphenat}
+	\hyphenation{Grid--Informations-systeme Sche-du-ler Sche-du-ling Per-for-mance Meta-sche-duler  Pla-gi-ats-prü-fung}
+
+	%Lists of figures/tables/algorithms
+	\usepackage{tocloft}
+	\tocloftpagestyle{empty}
+
+	%Counters
+	\usepackage{totcount}
+	\newtotcounter{figures}
+	\newtotcounter{tables}
+	\newtotcounter{algorithms}
+	\setcounter{algorithms}{12}
+	\makeatletter
+		%figure
+			\renewenvironment{figure}[1][\fps@figure]
+			{
+				\edef\@tempa{\noexpand\@float{figure}[#1]} 
+				\@tempa
+				\addtocounter{figures}{1}
+			}
+			{
+				\end@float
+			}
+
+		%table
+			\let\oldtable\table
+			\let\endoldtable\endtable
+			\renewenvironment{table}[1][hbt]
+			{
+				\oldtable[#1]
+				\addtocounter{tables}{1}
+			}
+			{
+				\endoldtable
+			}
+	\makeatother
+
+	%Counters for figures, tables, algorithms
+	\usepackage{etoolbox}
+	\usepackage{lastpage}
+	\newcounter{totfigures}
+	\newcounter{tottables}
+	\newcounter{totalgorithms}
+	\providecommand\totfig{} 
+	\providecommand\tottab{}
+	\providecommand\totalg{}
+	
+	\pretocmd{\chapter}{\addtocounter{totfigures}{\value{figure}}\setcounter{figure}{0}}{}{}
+	\pretocmd{\chapter}{\addtocounter{tottables}{\value{table}}\setcounter{table}{0}}{}{}
+	%\pretocmd{\chapter}{\addtocounter{totalgorithms}{\value{algorithm}}
+	%\setcounter{algorithm}{0}}{}{}
+	\makeatletter
+	\AtEndDocument{%
+	\addtocounter{totfigures}{\value{figure}}%
+	\addtocounter{tottables}{\value{table}}%
+	%\addtocounter{totalgorithms}{\value{algorithm}}%
+	\immediate\write\@mainaux{%
+		\string\gdef\string\totfig{\number\value{totfigures}}%
+		\string\gdef\string\tottab{\number\value{tottables}}%
+		\string\gdef\string\totalg{\number\value{algorithm}}%
+	}%
+	}
+	\makeatother
+
+	\usepackage[title,page]{appendix}
+
+%%%%%%% Packages %%%%%%%%%%%%%%%%%%%%%%%%%
+	\usepackage{amssymb}
+	\usepackage{amsmath}
+	\usepackage{listings}
+	\usepackage{cite}
+	\usepackage{amsfonts}
+	\usepackage{algorithm}
+	\usepackage{algorithmicx}
+	\usepackage{algpseudocode}
+	\usepackage{graphicx}
+	\usepackage{tikz}
+	\usepackage{array}
+	\usepackage{xcolor, colortbl}
+	\usepackage{enumitem}
+	\usepackage{makecell}
+	\usepackage{caption}
+	\usepackage{pdfpages}
+
+
+%%%%%%% New Commands %%%%%%%%%%%%%%%%%%%%%
+	\newcommand\todo[1]{\textcolor{red}{#1}}
+	\newcommand\done[1]{\textcolor{green}{#1}}
+	\newcommand\future[1]{\textcolor{blue}{#1}}
+
+	%Colors
+	\definecolor{offwhite}{HTML}{DDDDDD}
+	\definecolor{polytech_green}{HTML}{37B249}
+	\definecolor{leibniz_blue}{HTML}{1C539B}
+	\definecolor{leibniz_blue_light}{HTML}{3d82dc}
+
+	%Table style
+	\newcommand\tableheader{\cellcolor{polytech_green}\color{white}}
+	\newcommand\tablesubheader{\cellcolor{offwhite}\color{black}}
+
+	%Pseudocode
+	\definecolor{comment}{HTML}{3CB371}
+	\algnewcommand\LineComment[1]{\State \textcolor{polytech_green}{//#1}}
+
+	%Symbols
+	\newcommand\avg{\mu}
+	\newcommand\stddev{\sigma}
+	\newcommand\discountFactor{\gamma}
+	\newcommand\explorationRate{\epsilon}
+	\newcommand\queryActions{\textsc{F}}
+	\newcommand\reportActions{\textsc{R}}
+
+%%%%%%% Main Content %%%%%%%%%%%%%%%%%%%%%
+	\begin{document}
+	%Title and Task list (external pdf files)
+	\includepdf{title_polytech.pdf}
+	\includepdf[pages=-]{task_list_polytech.pdf}
+
+	\abstracts
+	\setcounter{page}{4}
+	\tableofcontents \clearpage
+	\pagestyle{polytech}
+
+	\unnumberedsection{Introduction} \input{content/2_introduction}
+	\clearpage
+	\section{Background}
+		\subsection{Problem Statement} \input{content/introduction/problem_statement}
+		\subsection{Objective} \input{content/introduction/objective}
+		\subsection{History and Overview} \input{content/introduction/history_and_overview}
+		\subsection{Applications} \input{content/introduction/applications}
+		\subsection{Scope and Limitations} \input{content/introduction/scope_and_limitations}
+	\section{Related Work} \input{content/3_related_work}
+	\section{Guidelines} \input{content/4_guidelines}
+		\subsection{SPBPU Paper Format} \input{content/guidelines/spbpu_paper_format} 
+		\subsection{SPBPU Structure} \input{content/guidelines/spbpu_structure}
+	\section{Examples} \input{content/5_examples}
+		\subsection{Figures} \input{content/examples/figures}
+		\subsection{Tables} \input{content/examples/tables}
+		\subsection{Equations} \input{content/examples/equations}
+		\subsection{Algorithms} \input{content/examples/algorithms}
+	\section{Thesis Main Content} \input{content/6_thesis_main_content}
+		\subsection{Part 1}
+			\subsubsection{Content Subsection}
+			\subsubsection{Content Subsection}
+		\subsection{Part 2}
+			\subsubsection{Content Subsection}
+			\subsubsection{Content Subsection}
+	\section{Experiments Setup} \input{content/7_experiments_setup}
+		\subsection{Datasets}
+			\subsubsection{Datasets Subsection}
+			\subsubsection{Datasets Subsection}
+		\subsection{Equipment}
+			\subsubsection{Equipment Subsection}
+			\subsubsection{Equipment Subsection}
+		\subsection{Processes}
+			\subsubsection{Processes Subsection}
+			\subsubsection{Processes Subsection}
+	\section{Results} \input{content/8_experiments_results}
+		\subsection{Results Section}
+			\subsubsection{Results Subsection}
+			\subsubsection{results Subsection}
+		\subsection{Results Section}
+			\subsubsection{Results Subsection}
+			\subsubsection{results Subsection}	
+	\section{Future Considerations} \input{content/9_future_considerations}
+		\subsection{Topic Points} \input{content/future_considerations/topic_points}
+		\subsection{Proposed Extensions} \input{content/future_considerations/proposed_extensions}
+		\clearpage
+	\unnumberedsection{Conclusions} \input{content/10_conclusions}
+	\clearpage
+	\bibliographystyle{plain}
+	\bibliography{references}
+
+	%\appendixpage
+	%\listoffigures \clearpage
+
+	% \renewcommand\cftbeforeloftitleskip{-1mm}
+	% \listoffigures \clearpage
+	% \listoftables
+	% {\let\clearpage\relax\listofalgorithms}
+	% \listofalgorithms
+
+	\end{document}
+	
