@@ -1,0 +1,57 @@
+\label{sec:examples_algorithms}
+Algorithms are not automatic. LUH prefers the algorithmic style while SPBPU requires figures. Below are examples of both.
+
+Note: The caption of the below figure has been overridden to follow the SPBPU format. 
+
+Warning: This changes the list of figures/algorithms as well as the counts. 
+
+%Alg: Split range
+\begin{algorithm}[H]
+    \centering
+    \footnotesize
+    %\scriptsize
+    \begin{algorithmic}[1]
+        \LineComment{Global variable}
+        \State $R \gets rangesList$
+        \Procedure{SplitRange}{$r, value$}
+            \LineComment{Create new ranges}
+            \State $rLow \gets range(r.Low, value)$
+            \State $rHigh \gets range(value, r.High)$
+            
+            \LineComment{Remove old range and add new ranges}
+            \State $R.Remove(r)$
+            \State $R.Add(rLow)$
+            \State $R.Add(rHigh)$
+        \EndProcedure
+    \end{algorithmic}
+    \caption{LUH Algorithm Example}
+    \label{alg:luh_algorithm_example}
+\end{algorithm}
+
+%Alg: Split range
+\begin{figure}[H]
+    \centering
+    \footnotesize
+    %\scriptsize
+    \fbox{\parbox{0.5\textwidth}{
+        \begin{algorithmic}[1]
+            \LineComment{Global variable}
+            \State $R \gets rangesList$
+            \Procedure{SplitRange}{$r, value$}
+                \LineComment{Create new ranges}
+                \State $rLow \gets range(r.Low, value)$
+                \State $rHigh \gets range(value, r.High)$
+                
+                \LineComment{Remove old range and add new ranges}
+                \State $R.Remove(r)$
+                \State $R.Add(rLow)$
+                \State $R.Add(rHigh)$
+            \EndProcedure
+        \end{algorithmic}
+    }}
+    %\caption{SPBPU algorithm example.}    
+    %\label{fig:spbpu_algorithm_example}
+
+    %Don't use the below caption line! This is only to show the example. Use the above caption and label lines.
+    \caption*{\textit{Figure X.X - SPBPU Algorithm Example}} 
+\end{figure}

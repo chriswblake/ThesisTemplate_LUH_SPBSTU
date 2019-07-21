@@ -1,0 +1,48 @@
+\label{sec:examples_equations}
+Equations are partly automatic. The number scheme is automatic, but the commas and period must be manually added/removed for the two versions. Table~\ref{table:equations_format} shows the important rules and the below equations provide an example.
+
+%Table: Table format
+\begin{table}[H]
+    \centering
+\begin{threeparttable}[H]
+    \renewcommand{\arraystretch}{1.3}
+    \caption{Figure format}
+    \label{table:equations_format}
+    \setlength\tabcolsep{5pt}
+    \begin{tabular}{|l|l|l|}\hline
+        \tableheader Item &\tableheader LUH &\tableheader SPBPU \\\hline
+
+        Suffix            &None        &commas ending with period\\\hline
+        Eq. Location      &Centered    &Centered\\\hline
+        Number Location   &Right       &Right\\\hline
+        Number Style      &(7.3)       &(7-3)\\\hline
+
+    \end{tabular}
+\end{threeparttable}
+\end{table}
+
+\begin{align}
+    \label{eqn:bin_count}
+    N       &= \sum 1_t \\
+    \label{eqn:bin_sum}
+    Sum     &= \sum v_t \\
+    \label{eqn:bin_sqsum}
+    SqSum   &= \sum {v_t}^2 \\
+    \label{eqn:bin_avg}
+    \avg    &= Sum/N \\
+    \label{eqn:bin_stddev}
+    \stddev  &= SqSum - 2N\avg + N\avg^2
+\end{align}
+
+\begin{align}
+    \label{eqn:bin_count2}
+    N       &= \sum 1_t, \\
+    \label{eqn:bin_sum2}
+    Sum     &= \sum v_t, \\
+    \label{eqn:bin_sqsum2}
+    SqSum   &= \sum {v_t}^2, \\
+    \label{eqn:bin_avg2}
+    \avg    &= Sum/N, \\
+    \label{eqn:bin_stddev2}
+    \stddev  &= SqSum - 2N\avg + N\avg^2.
+\end{align}
